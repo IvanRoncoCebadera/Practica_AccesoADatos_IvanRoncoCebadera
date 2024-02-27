@@ -12,17 +12,16 @@ mariadb_connection = mariadb.connect(
     )
 cursor = mariadb_connection.cursor()
 
-def _create_tables_if_not_exists():
-    create_table_query = """
+create_table_query = """
         CREATE TABLE IF NOT EXISTS tUsuarios (
             id VARCHAR(255) PRIMARY KEY,
             password VARCHAR(255)
         )
         """
-    cursor.execute(create_table_query)
-    mariadb_connection.commit()
+cursor.execute(create_table_query)
+mariadb_connection.commit()
 
-    create_table_query = """
+create_table_query = """
     CREATE TABLE IF NOT EXISTS tTareas (
         id VARCHAR(36) PRIMARY KEY,
         user_id VARCHAR(255),
@@ -34,7 +33,5 @@ def _create_tables_if_not_exists():
         FOREIGN KEY (user_id) REFERENCES tUsuarios(id) ON DELETE CASCADE ON UPDATE CASCADE
     )
     """
-    cursor.execute(create_table_query)
-    mariadb_connection.commit()
-    
-_create_tables_if_not_exists()
+cursor.execute(create_table_query)
+mariadb_connection.commit()

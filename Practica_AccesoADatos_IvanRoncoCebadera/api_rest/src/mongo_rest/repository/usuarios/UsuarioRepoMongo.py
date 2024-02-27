@@ -27,11 +27,8 @@ class UsuarioRepoMongo(IUsuarioRepo):
         except: return []
 
     def find_by_id(self, id: str) -> Optional[Usuario]:
-        try:
-            return Usuario(**self.db.lista_usuarios.find_one({"id": id}))
-        except Exception as e: 
-            print(e)
-            return None
+        try: return Usuario(**self.db.lista_usuarios.find_one({"id": id}))
+        except: return None
 
     def add(self, entity: Usuario) -> bool:
         try: self.db.lista_usuarios.insert_one(entity.__dict__)

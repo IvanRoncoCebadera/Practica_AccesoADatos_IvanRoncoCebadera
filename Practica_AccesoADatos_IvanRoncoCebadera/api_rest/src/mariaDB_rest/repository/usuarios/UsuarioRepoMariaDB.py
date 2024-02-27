@@ -1,12 +1,13 @@
 from typing import List, Optional
 from models.usuarios.Usuario import Usuario
 from IRepository.usuarios.IUsuarioRepo import IUsuarioRepo
-from IRepository import mariadb_connection
+from IRepository import mariadb_connection, cursor
 
 class UsuarioRepoMariaDB(IUsuarioRepo):
 
     def __init__(self):
         self.connection = mariadb_connection
+        self.cursor = cursor
 
     def find_all(self) -> List[Usuario]:
         try:
@@ -32,7 +33,9 @@ class UsuarioRepoMariaDB(IUsuarioRepo):
             self.cursor.execute(query, (entity.id, entity.password))
             self.connection.commit()
             return True
-        except: return False
+        except Exception as e: 
+            print(e)
+            return False
 
     def update(self, entity: Usuario) -> bool:
         try:

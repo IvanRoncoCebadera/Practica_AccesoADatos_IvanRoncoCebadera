@@ -4,12 +4,13 @@ from uuid import UUID
 import mariadb
 from IRepository.tareas.ITareaRepo import ITareaRepo
 from models.tareas.TareaDTO import TareaDTO
-from IRepository import mariadb_connection
+from IRepository import mariadb_connection, cursor
 
 class TareaRepoMariaDB(ITareaRepo):
 
     def __init__(self):
         self.connection = mariadb_connection
+        self.cursor = cursor
 
     def find_all(self) -> List[TareaDTO]:
         try:
