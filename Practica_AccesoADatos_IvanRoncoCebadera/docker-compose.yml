@@ -1,0 +1,44 @@
+version: '3.1'
+services:
+  mongo:
+    restart: always
+    image: mongo:6.0.13-jammy
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo_database_practica:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_DATABASE: testdb
+
+  maria:
+    image: mariadb:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_DATABASE: testdb
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    volumes:
+      - mariadb_database_practica:/var/lib/mysql
+  
+  api:
+    build: api_rest/.
+    depends_on:
+      - maria
+      - mongo
+    ports:
+      - "8000:8000"
+    environment:
+      - PORT=8000
+    develop:
+      watch:
+        - action: sync
+          path: api/src
+          target: /usr/src/app
+        - action: rebuild
+          path: api/requirements.txt
+
+volumes:
+  mongo_database_practica:
+  mariadb_database_practica:
