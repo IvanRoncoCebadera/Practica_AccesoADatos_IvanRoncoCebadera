@@ -13,6 +13,7 @@ services:
       MONGO_INITDB_DATABASE: testdb
 
   maria:
+    restart: always
     image: mariadb:latest
     environment:
       MYSQL_ROOT_PASSWORD: example
