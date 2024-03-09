@@ -5,23 +5,27 @@ services:
     image: mongo:6.0.13-jammy
     ports:
       - '27017:27017'
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME
+      - MONGO_INITDB_ROOT_PASSWORD
+      - MONGO_INITDB_DATABASE
+      - MONGO_API_USER
+      - MONGO_API_PWD
     volumes:
       - mongo_database_practica:/data/db
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
-      MONGO_INITDB_DATABASE: testdb
+      - ./mongo/init-mongo.sh:/docker-entrypoint-initdb.d/init-mongo.sh
 
   maria:
     restart: always
     image: mariadb:latest
     environment:
-      MYSQL_ROOT_PASSWORD: example
-      MYSQL_DATABASE: testdb
-      MYSQL_USER: user
-      MYSQL_PASSWORD: password
+      - MYSQL_ROOT_PASSWORD
+      - MYSQL_DATABASE
+      - MYSQL_USER
+      - MYSQL_PASSWORD
     volumes:
       - mariadb_database_practica:/var/lib/mysql
+      - ./maria/init-maria.sh:/docker-entrypoint-initdb.d/init-maria.sh
   
   api:
     build: api_rest/.

@@ -23,7 +23,9 @@ class UsuarioRepoMongo(IUsuarioRepo):
         except: pass
 
     def find_all(self) -> List[Usuario]:
-        try: return list(self.db.lista_usuarios.find())
+        try: 
+            users = self.db.lista_usuarios.find()
+            return [Usuario(**user) for user in users]
         except: return []
 
     def find_by_id(self, id: str) -> Optional[Usuario]:

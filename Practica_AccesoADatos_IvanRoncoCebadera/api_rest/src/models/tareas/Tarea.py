@@ -4,7 +4,7 @@ from pydantic import BaseModel
 
 class Tarea(BaseModel):
     id: UUID
-    user_id: str
+    list_id: int
     text: str
     created: date
     updated: date
